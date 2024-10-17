@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS todos (
    content VARCHAR(255) NOT NULL,
    created_at TIMESTAMP NOT NULL,
    updated_at TIMESTAMP,
-   deleted_at TIMESTAMP
+   deleted_at TIMESTAMP,
+   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
