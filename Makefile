@@ -1,6 +1,6 @@
 include .env
 
-APP_NAME := go-boilerplate
+APP_NAME := todo-app-backend
 SOURCE_PATH := ./src/
 MIGRATION_DIR := ./migrations
 
