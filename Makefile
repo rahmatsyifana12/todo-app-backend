@@ -10,6 +10,11 @@ DBMATE_URL := postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${POSTGRES_HO
 build:
 	go build -v -o bin/${APP_NAME} ./src
 
+.PHONY: deploy
+build:
+	go build -v -o bin/${APP_NAME} ./src
+    sudo supervisorctl restart ${APP_NAME}
+
 .PHONY: start
 start:
 	./bin/${APP_NAME}
