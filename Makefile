@@ -11,7 +11,7 @@ build:
 	go build -v -o bin/${APP_NAME} ./src
 
 .PHONY: deploy
-build:
+deploy:
 	go build -v -o bin/${APP_NAME} ./src
     sudo supervisorctl restart ${APP_NAME}
 
