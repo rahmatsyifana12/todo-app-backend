@@ -4,11 +4,13 @@ import (
 	"go-boilerplate/src/dtos"
 	"go-boilerplate/src/models"
 	"go-boilerplate/src/pkg/responses"
+	"go-boilerplate/src/pkg/utils"
 	"go-boilerplate/src/repositories"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/sarulabs/di"
+	"gorm.io/gorm"
 )
 
 type TodoService interface {
@@ -51,6 +53,10 @@ func (s *TodoServiceImpl) CreateTodo(c echo.Context, claims dtos.AuthClaims, par
 		Title:   params.Title,
 		Content: params.Content,
 		UserID:  user.ID,
+		Model:   gorm.Model{
+			CreatedAt: utils.GetTimeNowJakarta(),
+			UpdatedAt: utils.GetTimeNowJakarta(),
+		},
 	}
 
 	err = s.repository.Todo.CreateTodo(c, newTodo)
@@ -137,6 +143,7 @@ func (s *TodoServiceImpl) UpdateTodo(c echo.Context, claims dtos.AuthClaims, par
 
 	todo.Title = params.Title
 	todo.Content = params.Content
+	todo.UpdatedAt = utils.GetTimeNowJakarta()
 
 	err = s.repository.Todo.UpdateTodo(c, *todo)
 	if err != nil {

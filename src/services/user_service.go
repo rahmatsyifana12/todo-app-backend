@@ -4,12 +4,14 @@ import (
 	"go-boilerplate/src/dtos"
 	"go-boilerplate/src/models"
 	"go-boilerplate/src/pkg/responses"
+	"go-boilerplate/src/pkg/utils"
 	"go-boilerplate/src/repositories"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/sarulabs/di"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
 )
 
 type UserService interface {
@@ -62,6 +64,10 @@ func (s *UserServiceImpl) CreateUser(c echo.Context, params dtos.CreateUserReque
 		Password: string(hashedPassword),
 		FullName: params.FullName,
 		PhoneNumber: params.PhoneNumber,
+		Model: gorm.Model{
+			CreatedAt: utils.GetTimeNowJakarta(),
+			UpdatedAt: utils.GetTimeNowJakarta(),
+		},
 	}
 
 	err = s.repository.User.CreateUser(c, newUser)
@@ -134,6 +140,7 @@ func (s *UserServiceImpl) UpdateUser(c echo.Context, claims dtos.AuthClaims, par
 
 	user.FullName = params.FullName
 	user.PhoneNumber = params.PhoneNumber
+	user.Model.UpdatedAt = utils.GetTimeNowJakarta()
 
 	err = s.repository.User.UpdateUser(c, *user)
 	if err != nil {
